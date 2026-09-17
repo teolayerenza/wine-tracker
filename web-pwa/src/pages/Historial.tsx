@@ -39,7 +39,7 @@ export function Historial() {
   return (
     <>
       <Header title="Wine Tracker" subtitle="Historial" />
-      <main className="pt-16 pb-[5.5rem] bg-surface min-h-screen">
+      <main className="pt-header pb-[5.5rem] bg-surface min-h-screen">
         <div className="px-margin pt-space-md pb-space-sm flex flex-col gap-space-sm">
           <div className="flex items-baseline justify-between">
             <div>

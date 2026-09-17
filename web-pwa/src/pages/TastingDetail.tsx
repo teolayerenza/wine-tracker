@@ -39,7 +39,7 @@ export function TastingDetail() {
   return (
     <>
       <Header title="Detalle de Cata" showBack />
-      <main className="pt-16 pb-24 bg-surface min-h-screen">
+      <main className="pt-header pb-24 bg-surface min-h-screen">
         <div className="px-margin pb-space-lg space-y-space-lg pt-space-sm">
           {/* Hero */}
           <div className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-row items-center gap-space-md">

@@ -32,7 +32,7 @@ export function WineProfile() {
   return (
     <>
       <Header title="Perfil del vino" showBack />
-      <main className="pt-16 pb-28 bg-surface min-h-screen">
+      <main className="pt-header pb-28 bg-surface min-h-screen">
         <section className="px-margin mt-space-sm">
           <div className="relative w-full rounded-xl overflow-hidden bg-surface-container-lowest shadow-md">
             <div className="relative h-64 w-full overflow-hidden bg-surface-container-high flex items-center justify-center">

@@ -105,7 +105,7 @@ export function AddTasting() {
   return (
     <>
       <Header title={editing ? 'Editar cata' : 'Nueva cata'} showBack />
-      <main className="pt-16 pb-24 bg-surface min-h-screen">
+      <main className="pt-header pb-24 bg-surface min-h-screen">
         <form onSubmit={handleSubmit} className="px-margin pt-space-sm space-y-space-lg">
           {/* Selección de vino */}
           <section className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm space-y-space-md">

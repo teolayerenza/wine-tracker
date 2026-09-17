@@ -18,6 +18,9 @@
   .pt-safe {
     padding-top: env(safe-area-inset-top, 0px);
   }
+  .pt-header {
+    padding-top: calc(4rem + env(safe-area-inset-top, 0px));
+  }
 }
 
 ::-webkit-scrollbar {
