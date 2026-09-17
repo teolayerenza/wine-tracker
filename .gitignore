@@ -1,0 +1,11 @@
+# Android
+android/.gradle/
+android/local.properties
+android/**/build/
+android/.idea/
+
+# iOS / Xcode
+ios/**/*.xcuserstate
+ios/**/xcuserdata/
+ios/**/DerivedData/
+ios/**/.build/
