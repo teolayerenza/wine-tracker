@@ -1,6 +1,8 @@
+import { useRef, useState, type ChangeEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { useWineData } from '../lib/DataContext'
+import { supabase } from '../lib/supabase'
 
 function formatDate(iso: string) {
   return new Date(iso + 'T00:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })
@@ -9,7 +11,9 @@ function formatDate(iso: string) {
 export function WineProfile() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { getWine, tastings, deleteWine } = useWineData()
+  const { getWine, tastings, deleteWine, updateWinePhoto } = useWineData()
+  const photoInputRef = useRef<HTMLInputElement>(null)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
 
   const wine = id ? getWine(id) : undefined
   if (!wine) {
@@ -29,6 +33,24 @@ export function WineProfile() {
     navigate('/mis-vinos')
   }
 
+  async function handlePhotoChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    setUploadingPhoto(true)
+    try {
+      const path = `${Date.now()}-${file.name}`
+      const { error: uploadError } = await supabase.storage.from('wine-photos').upload(path, file)
+      if (uploadError) throw uploadError
+      const photoUrl = supabase.storage.from('wine-photos').getPublicUrl(path).data.publicUrl
+      await updateWinePhoto(wine!.id, photoUrl)
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'No se pudo subir la foto')
+    } finally {
+      setUploadingPhoto(false)
+    }
+  }
+
   return (
     <>
       <Header title="Perfil del vino" showBack />
@@ -46,6 +68,24 @@ export function WineProfile() {
                   {wine.style}
                 </div>
               )}
+              <input
+                ref={photoInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handlePhotoChange}
+              />
+              <button
+                type="button"
+                onClick={() => photoInputRef.current?.click()}
+                disabled={uploadingPhoto}
+                aria-label="Cambiar foto del vino"
+                className="absolute bottom-space-sm right-space-sm w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-sm shadow-md flex items-center justify-center text-primary-container active:scale-95 transition-transform disabled:opacity-60"
+              >
+                <span className="material-symbols-outlined text-[20px]">
+                  {uploadingPhoto ? 'hourglass_top' : 'photo_camera'}
+                </span>
+              </button>
             </div>
             <div className="p-space-lg flex flex-col gap-space-xs">
               {wine.winery && (
