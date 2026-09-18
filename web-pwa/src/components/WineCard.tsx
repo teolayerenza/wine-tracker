@@ -5,9 +5,9 @@ export function WineCard({ wine }: { wine: WineWithStats }) {
   return (
     <Link to={`/mis-vinos/${wine.id}`}>
       <article className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm active:scale-[0.98] transition-transform">
-        <div className="relative w-full aspect-[3/4] bg-surface-container flex items-center justify-center">
+        <div className="relative w-full aspect-[3/4] bg-surface-container flex items-center justify-center p-2">
           {wine.photo_url ? (
-            <img className="w-full h-full object-cover" src={wine.photo_url} alt={wine.name} />
+            <img className="w-full h-full object-contain" src={wine.photo_url} alt={wine.name} />
           ) : (
             <span className="material-symbols-outlined text-[36px] text-primary-container/40">wine_bar</span>
           )}

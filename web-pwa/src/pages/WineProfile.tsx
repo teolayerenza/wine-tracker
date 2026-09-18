@@ -57,9 +57,9 @@ export function WineProfile() {
       <main className="pt-header pb-28 bg-surface min-h-screen">
         <section className="px-margin mt-space-sm">
           <div className="relative w-full rounded-xl overflow-hidden bg-surface-container-lowest shadow-md">
-            <div className="relative h-64 w-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+            <div className="relative h-64 w-full overflow-hidden bg-surface-container-high flex items-center justify-center p-4">
               {wine.photo_url ? (
-                <img alt={wine.name} className="w-full h-full object-cover" src={wine.photo_url} />
+                <img alt={wine.name} className="w-full h-full object-contain" src={wine.photo_url} />
               ) : (
                 <span className="material-symbols-outlined text-[56px] text-primary-container/40">wine_bar</span>
               )}

@@ -43,9 +43,9 @@ export function TastingDetail() {
         <div className="px-margin pb-space-lg space-y-space-lg pt-space-sm">
           {/* Hero */}
           <div className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-row items-center gap-space-md">
-            <div className="relative w-24 h-32 flex-shrink-0 bg-surface-container rounded-xl overflow-hidden shadow-inner flex items-center justify-center">
+            <div className="relative w-24 h-32 flex-shrink-0 bg-surface-container rounded-xl overflow-hidden shadow-inner flex items-center justify-center p-1">
               {wine.photo_url ? (
-                <img className="w-full h-full object-cover" src={wine.photo_url} alt={wine.name} />
+                <img className="w-full h-full object-contain" src={wine.photo_url} alt={wine.name} />
               ) : (
                 <span className="material-symbols-outlined text-[32px] text-primary-container/40">wine_bar</span>
               )}

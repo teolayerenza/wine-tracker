@@ -16,9 +16,9 @@ export function TastingCard({ tasting }: { tasting: TastingWithWine }) {
     <Link to={`/historial/${tasting.id}`}>
       <article className="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm transition-all duration-200 active:scale-[0.99] flex flex-col gap-3">
         <div className="flex gap-space-md">
-          <div className="relative w-20 h-28 shrink-0 rounded-xl overflow-hidden bg-surface-container flex items-center justify-center">
+          <div className="relative w-20 h-28 shrink-0 rounded-xl overflow-hidden bg-surface-container flex items-center justify-center p-1">
             {wine.photo_url ? (
-              <img className="w-full h-full object-cover" src={wine.photo_url} alt={wine.name} />
+              <img className="w-full h-full object-contain" src={wine.photo_url} alt={wine.name} />
             ) : (
               <span className="material-symbols-outlined text-[28px] text-primary-container/40">wine_bar</span>
             )}
