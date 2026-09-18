@@ -44,6 +44,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     refresh()
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refresh()
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
   }, [refresh])
 
   const winesWithStats = useMemo<WineWithStats[]>(() => {

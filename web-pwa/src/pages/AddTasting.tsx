@@ -38,7 +38,8 @@ export function AddTasting() {
       setOccasion(editing.occasion ?? '')
       setComment(editing.comment ?? '')
     }
-  }, [editing])
+    // Solo al cargar la cata: un refresh de datos no debe pisar lo que el usuario está tipeando.
+  }, [editing?.id])
 
   const filteredWines = useMemo(
     () => wines.filter((w) => w.name.toLowerCase().includes(wineSearch.toLowerCase())),

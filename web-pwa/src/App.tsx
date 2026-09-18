@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
-import { DataProvider } from './lib/DataContext'
+import { DataProvider, useWineData } from './lib/DataContext'
 import { BottomNav } from './components/BottomNav'
+import { PullToRefresh } from './components/PullToRefresh'
 import { Splash } from './pages/Splash'
 import { Historial } from './pages/Historial'
 import { TastingDetail } from './pages/TastingDetail'
@@ -14,9 +15,13 @@ const NAV_ROUTES = ['/historial', '/mis-vinos']
 function Shell() {
   const location = useLocation()
   const showNav = NAV_ROUTES.includes(location.pathname)
+  const { refresh } = useWineData()
+  const { pathname } = location
+  const canPull = pathname !== '/' && pathname !== '/agregar' && !pathname.endsWith('/editar')
 
   return (
     <>
+      <PullToRefresh onRefresh={refresh} enabled={canPull} />
       <Routes>
         <Route path="/" element={<Splash />} />
         <Route path="/historial" element={<Historial />} />
