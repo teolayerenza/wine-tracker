@@ -16,7 +16,7 @@ interface DataContextValue {
   updateTasting: (id: string, input: TastingInput) => Promise<void>
   deleteTasting: (id: string) => Promise<void>
   deleteWine: (id: string) => Promise<void>
-  updateWinePhoto: (id: string, photoUrl: string) => Promise<void>
+  updateWine: (id: string, input: Partial<WineInput>) => Promise<void>
   getWine: (id: string) => WineWithStats | undefined
   getTasting: (id: string) => TastingWithWine | undefined
 }
@@ -101,8 +101,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
     await refresh()
   }
 
-  async function updateWinePhoto(id: string, photoUrl: string) {
-    const { error } = await supabase.from('wines').update({ photo_url: photoUrl }).eq('id', id)
+  async function updateWine(id: string, input: Partial<WineInput>) {
+    const { error } = await supabase.from('wines').update(input).eq('id', id)
     if (error) throw error
     await refresh()
   }
@@ -117,7 +117,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     updateTasting,
     deleteTasting,
     deleteWine,
-    updateWinePhoto,
+    updateWine,
     getWine: (id) => winesWithStats.find((w) => w.id === id),
     getTasting: (id) => tastingsWithWine.find((t) => t.id === id),
   }

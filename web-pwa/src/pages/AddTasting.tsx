@@ -4,9 +4,7 @@ import { Header } from '../components/Header'
 import { StarRating } from '../components/StarRating'
 import { supabase } from '../lib/supabase'
 import { useWineData } from '../lib/DataContext'
-import type { WineInput } from '../types'
-
-const emptyWineForm = { name: '', winery: '', varietal: '', region: '', vintage_year: '', style: '' }
+import { WineFields, emptyWineForm, formToWineInput } from '../components/WineFields'
 
 export function AddTasting() {
   const navigate = useNavigate()
@@ -65,16 +63,7 @@ export function AddTasting() {
           photoUrl = supabase.storage.from('wine-photos').getPublicUrl(path).data.publicUrl
         }
 
-        const input: WineInput = {
-          name: newWine.name.trim(),
-          winery: newWine.winery || null,
-          varietal: newWine.varietal || null,
-          region: newWine.region || null,
-          vintage_year: newWine.vintage_year ? Number(newWine.vintage_year) : null,
-          style: newWine.style || null,
-          photo_url: photoUrl,
-        }
-        const wine = await createWine(input)
+        const wine = await createWine({ ...formToWineInput(newWine), photo_url: photoUrl })
         wineId = wine.id
       }
 
@@ -171,46 +160,7 @@ export function AddTasting() {
 
             {!editing && mode === 'new' && (
               <div className="space-y-2">
-                <input
-                  placeholder="Nombre del vino *"
-                  value={newWine.name}
-                  onChange={(e) => setNewWine({ ...newWine, name: e.target.value })}
-                  required
-                  className="w-full h-11 px-4 rounded-xl border border-outline-variant bg-surface font-body-md text-body-md focus:outline-none focus:border-[1.5px] focus:border-primary-container"
-                />
-                <input
-                  placeholder="Bodega"
-                  value={newWine.winery}
-                  onChange={(e) => setNewWine({ ...newWine, winery: e.target.value })}
-                  className="w-full h-11 px-4 rounded-xl border border-outline-variant bg-surface font-body-md text-body-md focus:outline-none focus:border-[1.5px] focus:border-primary-container"
-                />
-                <input
-                  placeholder="Varietal (ej. Malbec)"
-                  value={newWine.varietal}
-                  onChange={(e) => setNewWine({ ...newWine, varietal: e.target.value })}
-                  className="w-full h-11 px-4 rounded-xl border border-outline-variant bg-surface font-body-md text-body-md focus:outline-none focus:border-[1.5px] focus:border-primary-container"
-                />
-                <div className="grid grid-cols-2 gap-2">
-                  <input
-                    placeholder="Región"
-                    value={newWine.region}
-                    onChange={(e) => setNewWine({ ...newWine, region: e.target.value })}
-                    className="h-11 px-4 rounded-xl border border-outline-variant bg-surface font-body-md text-body-md focus:outline-none focus:border-[1.5px] focus:border-primary-container"
-                  />
-                  <input
-                    placeholder="Añada (año)"
-                    type="number"
-                    value={newWine.vintage_year}
-                    onChange={(e) => setNewWine({ ...newWine, vintage_year: e.target.value })}
-                    className="h-11 px-4 rounded-xl border border-outline-variant bg-surface font-body-md text-body-md focus:outline-none focus:border-[1.5px] focus:border-primary-container"
-                  />
-                </div>
-                <input
-                  placeholder="Tipo (ej. Gran Reserva)"
-                  value={newWine.style}
-                  onChange={(e) => setNewWine({ ...newWine, style: e.target.value })}
-                  className="w-full h-11 px-4 rounded-xl border border-outline-variant bg-surface font-body-md text-body-md focus:outline-none focus:border-[1.5px] focus:border-primary-container"
-                />
+                <WineFields value={newWine} onChange={setNewWine} />
                 <label className="font-label-sm text-label-sm text-on-surface-variant flex flex-col gap-1">
                   Foto (opcional)
                   <input type="file" accept="image/*" onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)} />

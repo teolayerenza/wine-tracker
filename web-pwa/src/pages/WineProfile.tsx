@@ -11,7 +11,7 @@ function formatDate(iso: string) {
 export function WineProfile() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { getWine, tastings, deleteWine, updateWinePhoto } = useWineData()
+  const { getWine, tastings, deleteWine, updateWine } = useWineData()
   const photoInputRef = useRef<HTMLInputElement>(null)
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
 
@@ -43,7 +43,7 @@ export function WineProfile() {
       const { error: uploadError } = await supabase.storage.from('wine-photos').upload(path, file)
       if (uploadError) throw uploadError
       const photoUrl = supabase.storage.from('wine-photos').getPublicUrl(path).data.publicUrl
-      await updateWinePhoto(wine!.id, photoUrl)
+      await updateWine(wine!.id, { photo_url: photoUrl })
     } catch (err) {
       alert(err instanceof Error ? err.message : 'No se pudo subir la foto')
     } finally {
@@ -182,7 +182,13 @@ export function WineProfile() {
           </div>
         </section>
 
-        <div className="px-margin mt-space-xl">
+        <div className="px-margin mt-space-xl flex flex-col gap-space-sm">
+          <button
+            onClick={() => navigate(`/mis-vinos/${wine.id}/editar`)}
+            className="w-full h-11 rounded-full border-[1.5px] border-primary-container text-primary-container font-label-lg text-label-lg"
+          >
+            Editar datos del vino
+          </button>
           <button onClick={handleDelete} className="w-full h-11 rounded-full border-[1.5px] border-error text-error font-label-lg text-label-lg">
             Borrar este vino
           </button>
